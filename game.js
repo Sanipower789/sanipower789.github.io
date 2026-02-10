@@ -10,16 +10,18 @@
 
   // Level 1: escalating "No"
   const noPhrases = [
-    'Bist du sicher?',
-    'Ganz sicher?',
-    'Wirklich sicher?',
-    'Absolut sicher??',
-    'Komm schon... 🤨',
-    'Sag doch JA!',
-    'Letzte Chance! 💕',
-    'Ich bring Blumen! 🌹',
-    'Schoki wartet! 🍫',
-    'Bitteeee? 🥺'
+    'Are you sure?',
+    'Like, really sure?',
+    'Super sure?',
+    '100% sure??',
+    'Think again... 🤨',
+    'Pretty please?',
+    'I’ll bring flowers! 🌹',
+    'There will be chocolate! 🍫',
+    'A playlist is ready! 🎵',
+    'We would be cute together!',
+    'Okay, now you’re teasing me!',
+    'Final final chance! 💕'
   ];
   let noClicks = 0;
 
@@ -198,7 +200,7 @@
       sealsFound++;
       sealScore.textContent = `${sealsFound} / ${sealsTotal}`;
       if (sealsFound === sealsTotal) {
-        finalMessage.textContent = "You found every seal! Happy Valentine's Day! 💞";
+        finalMessage.textContent = 'Du hast alle Robben gefunden! Frohen Valentinstag! 💞';
         finalMessage.style.display = 'block';
       }
     } else {
