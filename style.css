@@ -141,6 +141,29 @@ h2 { margin: 0; font-size: 1.35rem; }
   display: none;
 }
 
+.maze-grid {
+  margin-top: 8px;
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  background: #fff8fd;
+  border: 2px dashed #ffc6de;
+  border-radius: 12px;
+  padding: 10px;
+}
+.maze-cell {
+  aspect-ratio: 1;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  font-size: 1.3rem;
+  background: #ffe6f1;
+  color: var(--text);
+}
+.maze-cell.wall { background: #f0d0e0; }
+.maze-cell.goal { background: #d6ffe3; border: 2px solid #7adf9c; }
+.maze-cell.player { background: #ffd6eb; border: 2px solid #ff8fbd; }
+
 @keyframes pop {
   0% { transform: scale(0.96); opacity: 0; }
   100% { transform: scale(1); opacity: 1; }

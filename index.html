@@ -25,12 +25,12 @@
     <!-- Level 2 -->
     <section id="level2" class="card">
       <div class="top-row">
-        <h2>Fang die Erbsenschoten 🫛</h2>
+        <h2>Fang die Zuckerschoten 🫛</h2>
         <div id="catchScore" class="pill">0 / 10</div>
       </div>
       <p class="hint">Zieh den Korb hin und her, um 10 fallende Schoten zu fangen.</p>
       <div id="catchArea">
-        <div id="basket" aria-label="Basket"></div>
+        <div id="basket" aria-label="Korb"></div>
       </div>
     </section>
 
@@ -43,6 +43,18 @@
       <p class="hint">Tippe auf die Kacheln, um Robben aufzudecken.</p>
       <div id="grid"></div>
       <div id="finalMessage" class="banner" role="status" aria-live="polite"></div>
+    </section>
+
+    <!-- Level 4 -->
+    <section id="level4" class="card">
+      <div class="top-row">
+        <h2>Führe das Herz durchs Labyrinth ❤️</h2>
+        <div id="moveCount" class="pill"></div>
+      </div>
+      <p class="hint">Wische oder nutze die Pfeile, um das Herz zum Ziel zu bringen.</p>
+      <div id="mazeGrid" class="maze-grid" aria-label="Labyrinth"></div>
+      <div id="mazeStatus" class="banner" role="status" aria-live="polite"></div>
+      <button id="mazeReset" class="btn no" style="margin-top:12px;">Nochmal starten 🔄</button>
     </section>
   </main>
 </body>

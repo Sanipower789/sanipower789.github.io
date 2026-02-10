@@ -5,6 +5,7 @@
   const level1 = document.getElementById('level1');
   const level2 = document.getElementById('level2');
   const level3 = document.getElementById('level3');
+  const level4 = document.getElementById('level4');
   const yesBtn = document.getElementById('yesBtn');
   const noBtn = document.getElementById('noBtn');
 
@@ -49,7 +50,7 @@
   });
 
   function showLevel(n) {
-    [level1, level2, level3].forEach((el, idx) => {
+    [level1, level2, level3, level4].forEach((el, idx) => {
       el.classList.toggle('active', idx === n - 1);
     });
   }
@@ -180,7 +181,7 @@
     for (let i = 0; i < gridSize; i++) {
       const tile = document.createElement('button');
       tile.className = 'tile';
-      tile.setAttribute('aria-label', `Tile ${i + 1}`);
+      tile.setAttribute('aria-label', `Kachel ${i + 1}`);
       tile.addEventListener('click', () => revealTile(tile, i));
       gridEl.appendChild(tile);
     }
@@ -200,8 +201,12 @@
       sealsFound++;
       sealScore.textContent = `${sealsFound} / ${sealsTotal}`;
       if (sealsFound === sealsTotal) {
-        finalMessage.textContent = 'Du hast alle Robben gefunden! Frohen Valentinstag! 💞';
+        finalMessage.textContent = 'Du hast alle Robben gefunden! Weiter zum Labyrinth...';
         finalMessage.style.display = 'block';
+        setTimeout(() => {
+          finalMessage.style.display = 'none';
+          startMazeLevel();
+        }, 600);
       }
     } else {
       tile.textContent = '💟';
@@ -213,4 +218,134 @@
 
   // Start at level 1
   showLevel(1);
+
+  // Level 4: Heart maze
+  const mazeGrid = document.getElementById('mazeGrid');
+  const moveCountEl = document.getElementById('moveCount');
+  const mazeStatus = document.getElementById('mazeStatus');
+  const mazeReset = document.getElementById('mazeReset');
+  const mazeLayout = [
+    '#######',
+    '#S...G#',
+    '#.#.#.#',
+    '#.#...#',
+    '#.###.#',
+    '#.....#',
+    '#######'
+  ];
+  let playerPos = { r: 0, c: 0 };
+  let goalPos = { r: 0, c: 0 };
+  let mazeCells = [];
+  let mazeMoves = 0;
+  let mazeWon = false;
+
+  function startMazeLevel() {
+    buildMaze();
+    mazeMoves = 0;
+    mazeWon = false;
+    updateMoves();
+    mazeStatus.style.display = 'none';
+    showLevel(4);
+  }
+
+  function buildMaze() {
+    mazeGrid.innerHTML = '';
+    mazeCells = [];
+    mazeLayout.forEach((rowStr, r) => {
+      const rowCells = [];
+      [...rowStr].forEach((ch, c) => {
+        const cell = document.createElement('div');
+        cell.className = 'maze-cell';
+        if (ch === '#') cell.classList.add('wall');
+        if (ch === 'G') {
+          cell.classList.add('goal');
+          cell.textContent = '🎯';
+          goalPos = { r, c };
+        }
+        if (ch === 'S') {
+          playerPos = { r, c };
+        }
+        mazeGrid.appendChild(cell);
+        rowCells.push(cell);
+      });
+      mazeCells.push(rowCells);
+    });
+    paintPlayer();
+  }
+
+  function paintPlayer() {
+    mazeCells.flat().forEach((cell, idx) => {
+      cell.classList.remove('player');
+      const r = Math.floor(idx / mazeLayout[0].length);
+      const c = idx % mazeLayout[0].length;
+      const isGoal = goalPos.r === r && goalPos.c === c;
+      cell.textContent = isGoal ? '🎯' : '';
+    });
+    const cell = mazeCells[playerPos.r][playerPos.c];
+    cell.classList.add('player');
+    cell.textContent = '❤️';
+  }
+
+  function updateMoves() {
+    moveCountEl.textContent = `${mazeMoves} Züge`;
+  }
+
+  function tryMove(dr, dc) {
+    if (mazeWon) return;
+    const nr = playerPos.r + dr;
+    const nc = playerPos.c + dc;
+    if (nr < 0 || nc < 0 || nr >= mazeLayout.length || nc >= mazeLayout[0].length) return;
+    if (mazeLayout[nr][nc] === '#') return;
+    playerPos = { r: nr, c: nc };
+    mazeMoves++;
+    updateMoves();
+    paintPlayer();
+    checkMazeWin();
+  }
+
+  function checkMazeWin() {
+    if (playerPos.r === goalPos.r && playerPos.c === goalPos.c) {
+      mazeWon = true;
+      mazeStatus.textContent = 'Geschafft! Das Herz ist am Ziel! 💖';
+      mazeStatus.style.display = 'block';
+    }
+  }
+
+  // Swipe controls
+  let touchStart = null;
+  mazeGrid.addEventListener('touchstart', e => {
+    if (!level4.classList.contains('active')) return;
+    const t = e.touches[0];
+    touchStart = { x: t.clientX, y: t.clientY };
+  }, { passive: true });
+
+  mazeGrid.addEventListener('touchend', e => {
+    if (!level4.classList.contains('active')) return;
+    if (!touchStart) return;
+    const t = e.changedTouches[0];
+    const dx = t.clientX - touchStart.x;
+    const dy = t.clientY - touchStart.y;
+    const absX = Math.abs(dx);
+    const absY = Math.abs(dy);
+    const threshold = 20;
+    if (absX < threshold && absY < threshold) return;
+    if (absX > absY) {
+      tryMove(0, dx > 0 ? 1 : -1);
+    } else {
+      tryMove(dy > 0 ? 1 : -1, 0);
+    }
+    touchStart = null;
+  }, { passive: true });
+
+  // Keyboard arrows fallback
+  window.addEventListener('keydown', e => {
+    if (!level4.classList.contains('active')) return;
+    const key = e.key.toLowerCase();
+    if (key === 'arrowup' || key === 'w') tryMove(-1, 0);
+    if (key === 'arrowdown' || key === 's') tryMove(1, 0);
+    if (key === 'arrowleft' || key === 'a') tryMove(0, -1);
+    if (key === 'arrowright' || key === 'd') tryMove(0, 1);
+  });
+
+  mazeReset.addEventListener('click', startMazeLevel);
 })();
