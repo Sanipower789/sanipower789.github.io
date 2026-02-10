@@ -10,13 +10,16 @@
 
   // Level 1: escalating "No"
   const noPhrases = [
-    'Are you sure?',
-    'Are you really sure?',
-    'Really, really sure?',
-    'Absolutely sure??',
-    'Come on... 🤨',
-    'Say YES already!',
-    'Last chance! 💕'
+    'Bist du sicher?',
+    'Ganz sicher?',
+    'Wirklich sicher?',
+    'Absolut sicher??',
+    'Komm schon... 🤨',
+    'Sag doch JA!',
+    'Letzte Chance! 💕',
+    'Ich bring Blumen! 🌹',
+    'Schoki wartet! 🍫',
+    'Bitteeee? 🥺'
   ];
   let noClicks = 0;
 
@@ -26,9 +29,9 @@
     noBtn.textContent = phrase;
 
     // Make No smaller and Yes bigger after several clicks
-    if (noClicks >= 3) {
-      const shrink = Math.max(0.8, 1 - (noClicks - 2) * 0.05);
-      const grow = 1 + Math.min(0.6, (noClicks - 2) * 0.1);
+    if (noClicks >= 2) {
+      const shrink = Math.max(0.65, 1 - (noClicks - 1) * 0.08);
+      const grow = 1 + Math.min(0.9, (noClicks - 1) * 0.18);
       noBtn.style.transform = `scale(${shrink})`;
       yesBtn.style.transform = `scale(${grow})`;
     }
@@ -62,7 +65,7 @@
 
   function startCatchGame() {
     resetCatchGame();
-    spawnTimer = setInterval(spawnPod, 850);
+    spawnTimer = setInterval(spawnPod, 900);
     rafId = requestAnimationFrame(tick);
   }
 
@@ -82,12 +85,12 @@
     const x = Math.random() * (catchArea.clientWidth - size) + size / 2;
     el.style.left = `${x}px`;
     catchArea.appendChild(el);
-    pods.push({ el, x, y: -40, speed: 1.6 + Math.random() * 0.8 });
+    pods.push({ el, x, y: -40, speed: 1.0 + Math.random() * 0.6 });
   }
 
   function tick() {
     pods.forEach((p, i) => {
-      p.y += p.speed * 4; // fall speed
+      p.y += p.speed * 3.2; // fall speed (slower for easier play)
       p.el.style.transform = `translate(-50%, ${p.y}px)`;
       // Collision with basket
       const basketRect = basket.getBoundingClientRect();
@@ -195,7 +198,7 @@
       sealsFound++;
       sealScore.textContent = `${sealsFound} / ${sealsTotal}`;
       if (sealsFound === sealsTotal) {
-        finalMessage.textContent = 'You found every seal! Happy Valentine’s Day! 💞';
+        finalMessage.textContent = "You found every seal! Happy Valentine's Day! 💞";
         finalMessage.style.display = 'block';
       }
     } else {
