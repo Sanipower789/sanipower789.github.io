@@ -201,12 +201,8 @@
       sealsFound++;
       sealScore.textContent = `${sealsFound} / ${sealsTotal}`;
       if (sealsFound === sealsTotal) {
-        finalMessage.textContent = 'Du hast alle Robben gefunden! Weiter zum Labyrinth...';
-        finalMessage.style.display = 'block';
-        setTimeout(() => {
-          finalMessage.style.display = 'none';
-          startMazeLevel();
-        }, 600);
+        finalMessage.style.display = 'none';
+        startMazeLevel(); // jump straight to maze
       }
     } else {
       tile.textContent = '💟';
