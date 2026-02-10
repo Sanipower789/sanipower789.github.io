@@ -6,6 +6,7 @@
   const level2 = document.getElementById('level2');
   const level3 = document.getElementById('level3');
   const level4 = document.getElementById('level4');
+  const level5 = document.getElementById('level5');
   const yesBtn = document.getElementById('yesBtn');
   const noBtn = document.getElementById('noBtn');
 
@@ -50,7 +51,7 @@
   });
 
   function showLevel(n) {
-    [level1, level2, level3, level4].forEach((el, idx) => {
+    [level1, level2, level3, level4, level5].forEach((el, idx) => {
       el.classList.toggle('active', idx === n - 1);
     });
   }
@@ -220,7 +221,6 @@
   // Level 4: Heart maze
   const mazeGrid = document.getElementById('mazeGrid');
   const moveCountEl = document.getElementById('moveCount');
-  const mazeStatus = document.getElementById('mazeStatus');
   const mazeReset = document.getElementById('mazeReset');
   const mazeLayout = [
     '#######',
@@ -242,7 +242,6 @@
     mazeMoves = 0;
     mazeWon = false;
     updateMoves();
-    mazeStatus.style.display = 'none';
     showLevel(4);
   }
 
@@ -304,8 +303,7 @@
   function checkMazeWin() {
     if (playerPos.r === goalPos.r && playerPos.c === goalPos.c) {
       mazeWon = true;
-      mazeStatus.textContent = 'Geschafft! Das Herz ist am Ziel! 💖';
-      mazeStatus.style.display = 'block';
+      showLevel(5);
     }
   }
 

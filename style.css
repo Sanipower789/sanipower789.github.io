@@ -164,6 +164,17 @@ h2 { margin: 0; font-size: 1.35rem; }
 .maze-cell.goal { background: #d6ffe3; border: 2px solid #7adf9c; }
 .maze-cell.player { background: #ffd6eb; border: 2px solid #ff8fbd; }
 
+.final-text {
+  text-align: center;
+  line-height: 1.4;
+}
+.final-btn {
+  display: block;
+  margin-top: 14px;
+  text-align: center;
+  text-decoration: none;
+}
+
 @keyframes pop {
   0% { transform: scale(0.96); opacity: 0; }
   100% { transform: scale(1); opacity: 1; }
