@@ -175,6 +175,7 @@
   function buildSealGrid() {
     gridEl.innerHTML = '';
     sealsFound = 0;
+    finalMessage.textContent = '';
     finalMessage.style.display = 'none';
     sealPositions = new Set(pickUnique(sealsTotal, gridSize));
     sealScore.textContent = `0 / ${sealsTotal}`;
@@ -201,6 +202,7 @@
       sealsFound++;
       sealScore.textContent = `${sealsFound} / ${sealsTotal}`;
       if (sealsFound === sealsTotal) {
+        finalMessage.textContent = '';
         finalMessage.style.display = 'none';
         startMazeLevel(); // jump straight to maze
       }
